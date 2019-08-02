@@ -1,0 +1,2 @@
+diff-cmd=@env@/vimdiffwrap4svn.sh
+
