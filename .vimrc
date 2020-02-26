@@ -10,10 +10,16 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'https://github.com/brookhong/cscope.vim.git'
+Plugin 'chazy/cscope_maps'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'nvie/vim-flake8'
+"Plugin 'taglist.vim'
+Plugin 'will133/vim-dirdiff'
+Plugin 'majutsushi/tagbar'
+Plugin 'greggerz/nerdtree-svn-plugin'
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'vim-syntastic/syntastic'
+"Plugin 'nvie/vim-flake8'
 
 
 " plugin from http://vim-scripts.org/vim/scripts.html
@@ -43,17 +49,58 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+highlight ExtraWhitespace ctermbg=Brown guibg=red
+:autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+
+execute "set <A-j>=\ej"
+execute "set <A-k>=\ek"
+
+:nnoremap <Leader>wn :match ExtraWhitespace /\s\+$/
+:nnoremap <Leader>wf :match
+:nnoremap <F2> :NERDTreeToggle<CR>
+:nnoremap <F3> :TagbarToggle<CR>
+:nnoremap <A-j> jzz
+:nnoremap <A-k> kzz
+
 colo koehler
 syntax on
 
 au BufNewFile,BufRead *.py
     \ set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
 
-let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_use_clangd = 0
+"let g:ycm_filetype_whitelist = {'*': 1}
+"let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"let g:ycm_global_ycm_extra_conf = '~/env/.ycm_extra_conf.py'
 
-let python_highlight_all=1
-syntax on
+let g:ycm_filter_diagnostics = {
+    \ "c": {
+    \       "regex": [ 
+    \                   ".*Endian not defined.*", 
+    \                   ".*not configured for target.*",
+    \                   ".*unknown type name 'ino_t'.*"
+    \       ]
+    \   }
+    \ }
 
-set laststatus=2
-set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+
+"let python_highlight_all=1
+"syntax on
+
+"set laststatus=2
+"set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+
+" enable recursive (toward parent) search of tags file
+set tags=tags;
+set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
+set cspc=3
+
+set tabstop=4 shiftwidth=4 expandtab
+
+highlight OverLength ctermbg=Brown ctermfg=white guibg=#592929
+"au BufNewFile,BufRead *.cpp match OverLength /\%81v.\+/
+
+let Tlist_Use_Right_Window = 1
+let g:NERDTreeShowIgnoredStatus = 1
+

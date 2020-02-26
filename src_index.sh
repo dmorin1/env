@@ -2,7 +2,7 @@
 PRJ=$PWD
 echo $PRJ
 cd /
-find -L $PRJ -name '*.c' -o -name '*.h' -o -name '*.cpp' -o -name '*.hpp' -o -name '*.atc' -o -name '*.py'| sed -e 's/.*/\"&\"/' > $PRJ/cscope.files
+find -L $PRJ -name '*.c' -o -name '*.h' -o -name '*.cpp' -o -name '*.hpp' -o -name '*.py' -o -name '*.xml' -o -name '*.conf' | sed -e 's/.*/\"&\"/' > $PRJ/cscope.files
 cd $PRJ
 
 if [ -f "cscope.in.out" ]; then
@@ -27,6 +27,7 @@ fi
 
 echo $PWD
 cscope -b -q -i$PRJ/cscope.files
+rm -rf ctags
 ctags -R
 
 # EOF
